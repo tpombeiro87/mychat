@@ -1,0 +1,8 @@
+.customInput {
+  padding: 5px;
+}
+
+.customInput textarea {
+  width: 100%;
+  height: 55px;
+}

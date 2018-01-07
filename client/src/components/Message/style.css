@@ -1,0 +1,49 @@
+.msgHolder {
+  width: 100%;
+}
+
+/* CSS talk bubble */
+.my-bubble {
+	margin: 10px;
+  display: inline-block;
+  position: relative;
+	min-width: 300px;
+  max-width: 80%;
+	height: auto;
+  border: 1px solid black;
+  border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+  text-align: center;
+}
+
+.my-bubble.my {
+  background-color: #91d93b;
+  float: right;
+}
+
+.my-bubble.others {
+  background-color: #d9dad8;
+  float: left;
+}
+
+.triangle:after.my {
+  border-color: #91d93b transparent transparent #91d93b;
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: auto;
+  right: -20px;
+  top: 38px;
+  bottom: auto;
+  border: 12px solid;
+}
+
+.triangle:after.others {
+  border-color: #91d93b transparent transparent #91d93b;
+}
+
+.my-bubble p {
+  margin: 5px;
+}

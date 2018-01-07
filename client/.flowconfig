@@ -1,0 +1,12 @@
+[ignore]
+.*/src/containers/App/test/.*
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]

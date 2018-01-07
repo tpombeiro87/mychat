@@ -14,11 +14,12 @@ io.on('connection', (socket) => {
   })
 
   socket.on('newMessage', (message) => {
+    logger.log(`socket.id :: ${socket.id}`)
     if (message.userId === socket.id) {
-      logger.log(`Emitting message now.. ${message}`)
-      io.emit('message', Object.assign({yourId: socket.id}, message))
+      logger.log(`Emitting message now.. ${JSON.stringify(message)}`)
+      io.emit('message', message)
     } else {
-      logger.error(`Message rejected.. impersonation attempt ${message}`)
+      logger.error(`Message rejected.. impersonation attempt ${JSON.stringify(message)}`)
     }
   })
 
