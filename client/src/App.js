@@ -3,28 +3,29 @@ import logo from './logo.svg'
 import './App.css'
 import io from 'socket.io-client'
 
+const SERVER_URL = 'http://localhost:3030'
+
 class App extends Component {
   constructor () {
     super()
     this.state = {
-      myUserName: 'Tiago-' + parseInt(Math.random() * 10, 10),
+      myUserName: 'Anonymous User - ' + parseInt(Math.random() * 100, 10),
+      myId: undefined,
       messages: [],
-      socket: io('http://localhost:3030'),
-      msgBox: ''
+      msgBox: '',
+      socket: io(SERVER_URL)
     }
 
     const addMessage = (newMessage) => {
       this.setState({
+        myId: newMessage.yourId,
         messages: this.state.messages.concat(newMessage)
       })
     }
-    this.state.socket.on('connect', () => addMessage({
-      user: 'clientApp',
-      msg: 'You are connected!'
-    }))
+
     this.state.socket.on('message', addMessage)
     this.state.socket.on('disconnect', () => addMessage({
-      user: 'clientApp',
+      userId: 'clientApp',
       msg: 'You are disconnected!'
     }))
   }
@@ -33,7 +34,8 @@ class App extends Component {
     if (event.key === 'Enter') {
       console.log('Send Message')
       this.state.socket.emit('newMessage', {
-        user: this.state.myUserName,
+        userName: this.state.myUserName,
+        userId: this.state.myId,
         msg: event.target.value
       })
       this.setState({
@@ -55,10 +57,12 @@ class App extends Component {
         <ul>
           {
             this.state.messages.map((message, index) =>
-              <li key={`msg--${index}`}>User: {message.user} :: {message.msg}</li>)
+              <li key={`msg--${index}`}>User: {message.userName} :: {message.msg}</li>)
           }
         </ul>
-        <input value={this.state.msgBox} onChange={(evt) => this.setState({msgBox: evt.target.value})} onKeyDown={(evt) => this.onKeyDown(evt)} />
+        <div className=''>
+          <input value={this.state.msgBox} onChange={(evt) => this.setState({msgBox: evt.target.value})} onKeyDown={(evt) => this.onKeyDown(evt)} />
+        </div>
       </div>
     )
   }

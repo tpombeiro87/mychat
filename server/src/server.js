@@ -2,32 +2,31 @@ const app = require('express')()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
-let users = {}
+const logger = require('./logger')
 
-// Whenever someone connects this gets executed
 io.on('connection', (socket) => {
-  console.log('A user connected')
-
-  setTimeout(function () {
-    socket.send({
-      user: 'system',
-      msg: 'Welcome to Tiago Chat!'
-    })
-  }, 2000)
+  logger.log(`A user connected id: ${socket.id}`)
+  socket.send({
+    userName: 'System',
+    userId: 'system',
+    yourId: socket.id,
+    msg: 'Welcome to Tiago Chat!'
+  })
 
   socket.on('newMessage', (message) => {
-    console.log('A message just reached..', message)
-    // para tds menos o q enviou
-    // socket.broadcast.emit('message', message)
-    // para tds
-    io.emit('message', message)
+    if (message.userId === socket.id) {
+      logger.log(`Emitting message now.. ${message}`)
+      io.emit('message', Object.assign({yourId: socket.id}, message))
+    } else {
+      logger.error(`Message rejected.. impersonation attempt ${message}`)
+    }
   })
 
   socket.on('disconnect', () => {
-    console.log('A user disconnected')
+    logger.log(`A user disconnectedid: ${socket.id}`)
   })
 })
 
 server.listen(3030, () => {
-  console.log('listening on *:3030')
+  logger.log('Listening on *:3030')
 })
