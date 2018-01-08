@@ -3,9 +3,21 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
 const logger = require('./logger')
-
+let users = []
 io.on('connection', (socket) => {
-  logger.log(`A user connected id: ${socket.id}`)
+  if (users.length < 2) {
+    logger.log(`A user connected id: ${socket.id}`)
+    users = users.concat(socket.id)
+  } else {
+    logger.log(`Disconnected! Already two users on the chat!`)
+    socket.send({
+      userName: 'System',
+      userId: 'system',
+      yourId: socket.id,
+      msg: 'The chat is full!'
+    })
+    socket.disconnect()
+  }
   socket.send({
     userName: 'System',
     userId: 'system',
@@ -24,6 +36,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
+    users.splice(users.indexIf(socket.id))
     logger.log(`A user disconnectedid: ${socket.id}`)
   })
 })

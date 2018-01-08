@@ -2,48 +2,72 @@
   width: 100%;
 }
 
-/* CSS talk bubble */
+.system {
+  margin: auto;
+}
+
 .my-bubble {
-	margin: 10px;
+  margin: 10px;
   display: inline-block;
   position: relative;
-	min-width: 300px;
+  min-width: 300px;
   max-width: 80%;
-	height: auto;
-  border: 1px solid black;
+  height: auto;
   border-radius: 10px;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-  text-align: center;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  box-shadow: 2px 2px grey;
+}
+
+.my-bubble:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 14px solid transparent;
+  box-shadow: 0px 2px grey;
 }
 
 .my-bubble.my {
   background-color: #91d93b;
   float: right;
+  margin-right: 10%;
+}
+.my-bubble.my:after {
+  border-left-color: #91d93b;
+  border-right: 0;
+  border-bottom: 0;
+  margin-top: -7px;
+  margin-right: -14px;
+  right: 0;
 }
 
 .my-bubble.others {
   background-color: #d9dad8;
   float: left;
+  margin-left: 10%;
 }
-
-.triangle:after.my {
-  border-color: #91d93b transparent transparent #91d93b;
-  content: ' ';
-  position: absolute;
-  width: 0;
-  height: 0;
-  left: auto;
-  right: -20px;
-  top: 38px;
-  bottom: auto;
-  border: 12px solid;
-}
-
-.triangle:after.others {
-  border-color: #91d93b transparent transparent #91d93b;
+.my-bubble.others:after {
+  border-right-color: #d9dad8;
+  border-left: 0;
+  border-bottom: 0;
+  margin-top: -9px;
+  margin-left: -12px;
+  left: 0;
 }
 
 .my-bubble p {
-  margin: 5px;
+  margin: 12px;
+}
+
+.system p {
+  width: 180px;
+  padding: 10px;
+  background: #222222;
+  color: white;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center
 }

@@ -2,9 +2,17 @@ import React from 'react'
 
 import './style.css'
 
-export default ({myId, msg, userId, userName}) =>
-  <div className={`msgHolder ${myId === userId ? 'my' : 'others'}`}>
-    <div className={`my-bubble triangle ${myId === userId ? 'my' : 'others'}`} >
-      <p>{msg}</p>
+export default ({myId, msg, userId, userName}) => {
+  let className = ''
+  if (userId === 'system') className = 'system'
+  else if (userId === myId) className = 'my-bubble  my'
+  else className = 'my-bubble others'
+
+  return (
+    <div className='msgHolder'>
+      <div className={className} >
+        <p>{msg}</p>
+      </div>
     </div>
-  </div>
+  )
+}

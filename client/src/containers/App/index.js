@@ -14,17 +14,20 @@ class App extends Component {
     this.state = {
       myUserName: 'Anonymous User - ' + parseInt(Math.random() * 100, 10),
       myId: undefined,
+      chattingToUserName: 'none',
       messages: [],
       msgBox: '',
       socket: io(SERVER_URL)
     }
 
     this.state.socket.on('message',
-      (message) => this.addMessage(message)
+      (message) => {
+        this.addMessage(message)
+      }
     )
     this.state.socket.on('disconnect',
       () => this.addMessage({
-        userId: 'clientApp',
+        userId: 'system',
         msg: 'You are disconnected!'
       }))
   }
@@ -53,7 +56,7 @@ class App extends Component {
   render () {
     return (
       <div className='box'>
-        <Header />
+        <Header chattingToUserName={this.state.chattingToUserName} />
         <div className='message-holders'>
           {
             this.state.messages.map((message, index) =>
