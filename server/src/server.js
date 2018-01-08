@@ -6,8 +6,8 @@ const logger = require('./logger')
 let users = []
 io.on('connection', (socket) => {
   if (users.length < 2) {
-    logger.log(`A user connected id: ${socket.id}`)
     users = users.concat(socket.id)
+    logger.log(`A user connected id: ${socket.id}, num of users on: ${users.length}`)
   } else {
     logger.log(`Disconnected! Already two users on the chat!`)
     socket.send({
@@ -36,8 +36,8 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
-    users.splice(users.indexIf(socket.id))
-    logger.log(`A user disconnectedid: ${socket.id}`)
+    users.splice(users.indexOf(socket.id))
+    logger.log(`A user disconnectedid: ${socket.id}, num of users on: ${users.length}`)
   })
 })
 

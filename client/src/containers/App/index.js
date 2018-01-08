@@ -14,7 +14,7 @@ class App extends Component {
     this.state = {
       myUserName: 'Anonymous User - ' + parseInt(Math.random() * 100, 10),
       myId: undefined,
-      chattingToUserName: 'no one',
+      chattingToUserName: 'no nick',
       messages: [],
       msgBox: '',
       socket: io(SERVER_URL)
@@ -22,36 +22,55 @@ class App extends Component {
 
     this.state.socket.on('message',
       (message) => {
-        this.addMessage(message)
+        this.onNewMessage(message)
       }
     )
     this.state.socket.on('disconnect',
-      () => this.addMessage({
+      () => this.onNewMessage({
         userId: 'system',
         msg: 'You are disconnected!'
       }))
   }
 
-  addMessage (message) {
-    this.setState({
-      myId: message.yourId || this.state.myId,
-      chattingToUserName: (this.state.myId !== message.userId && message.userId !== 'system')
-        ? message.userName
-        : this.state.chattingToUserName,
-      messages: this.state.messages.concat(message)
-    })
+  onNewMessage (message) {
+    const commandInputed = message.msg.split(' ')[0]
+    if (commandInputed === '/countdown' && message.userId !== this.state.myId) {
+      console.log('will open tab..')
+      window.open(message.msg.replace('/countdown ', ''), '_new')
+    }
+
+    if (commandInputed === '/nick') {
+      const userName = this.state.msgBox.split(' ')[1]
+      console.log('Change Nickname to', userName)
+      this.setState({chattingToUserName: userName})
+    }
+
+    if (commandInputed === '/oops') {
+      console.log('will remove last message')
+      const newMessages = this.state.messages.slice(0, -1)
+      this.setState({messages: newMessages})
+    } else {
+      this.setState({
+        myId: message.yourId || this.state.myId,
+        messages: this.state.messages.concat(message)
+      })
+    }
   }
 
   onBtnSendClick (event) {
     const commandInputed = this.state.msgBox.split(' ')[0]
 
-    if (commandInputed === '/nick') {
-      const myUserName = this.state.msgBox.split(' ')[1]
-      console.log('Change Nickname to', myUserName)
-      this.setState({
-        myUserName,
-        msgBox: ''
-      })
+    if (commandInputed === '/countdown') {
+      console.log('Send Countdown Message')
+      for (let i = 0; i <= 5; i++) {
+        const sendCountDownMsg = (finalMsg) => {
+          this.state.socket.emit('newMessage', {
+            userId: this.state.myId,
+            msg: i !== 5 ? `${5 - i}` : finalMsg
+          })
+        }
+        setTimeout(sendCountDownMsg.bind(this, this.state.msgBox), 1000 * (i + 1))
+      }
     } else {
       console.log('Send Normal Message')
       this.state.socket.emit('newMessage', {
@@ -59,10 +78,13 @@ class App extends Component {
         userId: this.state.myId,
         msg: this.state.msgBox
       })
-      this.setState({
-        msgBox: ''
-      })
     }
+    this.setState({
+      myUserName: commandInputed === '/nick'
+        ? this.state.msgBox.split(' ')[1]
+        : this.state.myUserName,
+      msgBox: ''
+    })
   }
 
   render () {
