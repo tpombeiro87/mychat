@@ -1,8 +1,13 @@
 .customInput {
-  padding: 5px;
+  display: flex !important;
 }
 
 .customInput textarea {
-  width: 100%;
+  flex-grow: 1;
   height: 55px;
+  resize: none;
+}
+
+.customInput button {
+  height: 61px;
 }

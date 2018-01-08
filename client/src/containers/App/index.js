@@ -39,18 +39,16 @@ class App extends Component {
     })
   }
 
-  onKeyDown (event) {
-    if (event.key === 'Enter') {
-      console.log('Send Message')
-      this.state.socket.emit('newMessage', {
-        userName: this.state.myUserName,
-        userId: this.state.myId,
-        msg: event.target.value
-      })
-      this.setState({
-        msgBox: ''
-      })
-    }
+  onBtnSendClick (event) {
+    console.log('Send Message')
+    this.state.socket.emit('newMessage', {
+      userName: this.state.myUserName,
+      userId: this.state.myId,
+      msg: this.state.msgBox
+    })
+    this.setState({
+      msgBox: ''
+    })
   }
 
   render () {
@@ -67,7 +65,7 @@ class App extends Component {
         <CustomInput
           value={this.state.msgBox}
           onChange={(evt) => this.setState({msgBox: evt.target.value})}
-          onKeyDown={(evt) => this.onKeyDown(evt)} />
+          onBtnSendClick={(evt) => this.onBtnSendClick(evt)} />
       </div>
     )
   }

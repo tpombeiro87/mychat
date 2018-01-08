@@ -25,4 +25,5 @@ body,
 }
 .box .customInput {
   flex: 0 1 auto;
+  display: flex;
 }
