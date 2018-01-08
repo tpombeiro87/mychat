@@ -5,6 +5,7 @@ body,
   height: 100%;
   margin: 0;
   font-family: arial;
+  font-size: 12px;
 }
 
 .box {

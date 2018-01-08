@@ -71,3 +71,26 @@
   margin-bottom: 10px;
   text-align: center
 }
+
+.think {
+  color: darkgreen;
+  font-weight: bolder;
+}
+
+.highlight {
+  font-size: 110%;
+}
+
+.my-bubble.others.highlight {
+  background-color: #b7b7b7;
+}
+.my-bubble.others.highlight:after {
+  border-right-color: #b7b7b7;
+}
+
+.my-bubble.my.highlight {
+  background-color: #74af2f;
+}
+.my-bubble.my.highlight:after {
+  border-left-color: #74af2f;
+}
