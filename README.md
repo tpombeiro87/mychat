@@ -9,17 +9,12 @@ npm ./server start
 
 
 TODOS:
-  * /oops - removes the last message sent
-
-
   * store last 10 msgs on local storage
   * load from local storage last 10
 
   * webpack functionality for the javascript and CSS files.
 
   * put flow on multiple places
-
-  * send enters as well
 
   OTHER:
   1. When the user is typing, indication that they are typing should be shown to the other user.

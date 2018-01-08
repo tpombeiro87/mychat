@@ -32,6 +32,20 @@ class App extends Component {
       }))
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    const messages = this.state.messages.filter(m => m.userId !== 'system').slice(0, -1)
+    localStorage.setItem('messages', JSON.stringify(messages))
+  }
+
+  componentWillMount () {
+    try {
+      var messages = JSON.parse(localStorage.getItem('messages'))
+      this.setState({messages})
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   onNewMessage (message) {
     const commandInputed = message.msg.split(' ')[0]
     if (commandInputed === '/countdown' && message.userId !== this.state.myId) {
@@ -55,6 +69,7 @@ class App extends Component {
         messages: this.state.messages.concat(message)
       })
     }
+    this.scrollToBottom()
   }
 
   onBtnSendClick (event) {
@@ -87,6 +102,10 @@ class App extends Component {
     })
   }
 
+  scrollToBottom () {
+    this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+  }
+
   render () {
     return (
       <div className='box'>
@@ -97,6 +116,8 @@ class App extends Component {
               <Message key={`message--${index}`} myId={this.state.myId} {...message} />
             )
           }
+          <div style={{ float: 'left', clear: 'both' }}
+            ref={(el) => { this.messagesEnd = el }} />
         </div>
         <CustomInput
           value={this.state.msgBox}
