@@ -12,9 +12,9 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      myUserName: 'Anonymous User - ' + parseInt(Math.random() * 100, 10),
+      myUserName: 'N.D.',
       myId: undefined,
-      chattingToUserName: 'no nick',
+      chattingToUserName: 'N.D.',
       messages: [],
       msgBox: '',
       socket: io(SERVER_URL)
