@@ -39,8 +39,8 @@ class App extends Component {
       window.open(message.msg.replace('/countdown ', ''), '_new')
     }
 
-    if (commandInputed === '/nick') {
-      const userName = this.state.msgBox.split(' ')[1]
+    if (commandInputed === '/nick' && message.userId !== this.state.myId) {
+      const userName = message.msg.split(' ')[1]
       console.log('Change Nickname to', userName)
       this.setState({chattingToUserName: userName})
     }
