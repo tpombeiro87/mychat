@@ -1,14 +1,19 @@
-.customInput {
+
+.custominput {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  background-color: grey;
   display: flex !important;
 }
 
-.customInput textarea {
+.custominput textarea {
   flex-grow: 1;
   height: 55px;
   resize: none;
 }
 
-.customInput button {
+.custominput button {
   height: 61px;
   width: 150px;
 }

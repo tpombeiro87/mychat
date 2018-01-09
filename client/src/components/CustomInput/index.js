@@ -3,7 +3,7 @@ import React from 'react'
 import './style.css'
 
 export default ({value, onChange, onBtnSendClick}) =>
-  <div className='customInput'>
+  <div className='custominput'>
     <textarea
       value={value}
       onChange={onChange} />

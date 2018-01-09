@@ -32,14 +32,6 @@ class App extends Component {
       }))
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    let messages = this.state.messages
-      .filter(m => m.userId !== 'system')
-    messages = messages.slice(-10)
-    localStorage.setItem('messages', JSON.stringify(messages))
-    localStorage.setItem('myId', this.state.myId)
-  }
-
   componentWillMount () {
     try {
       const myId = localStorage.getItem('myId')
@@ -48,6 +40,14 @@ class App extends Component {
     } catch (err) {
       console.log(err)
     }
+  }
+
+  updateLocalStorage (prevProps, prevState) {
+    let messages = this.state.messages
+      .filter(m => m.userId !== 'system')
+    messages = messages.slice(-10)
+    localStorage.setItem('messages', JSON.stringify(messages))
+    localStorage.setItem('myId', this.state.myId)
   }
 
   onNewMessage (message) {
@@ -59,7 +59,7 @@ class App extends Component {
 
     if (commandInputed === '/nick' && message.userId !== this.state.myId) {
       const userName = message.msg.split(' ')[1]
-      console.log('Change Nickname to', userName)
+      console.log('change Nickname to', userName)
       this.setState({chattingToUserName: userName})
     }
 
@@ -83,6 +83,7 @@ class App extends Component {
       messages: messages.concat(message)
     })
     this.scrollToBottom()
+    this.updateLocalStorage()
   }
 
   onBtnSendClick (event) {
@@ -129,8 +130,7 @@ class App extends Component {
               <Message key={`message--${index}`} myId={this.state.myId} {...message} />
             )
           }
-          <div style={{ float: 'left', clear: 'both' }}
-            ref={(el) => { this.messagesEnd = el }} />
+          <div ref={(el) => { this.messagesEnd = el }} />
         </div>
         <CustomInput
           value={this.state.msgBox}

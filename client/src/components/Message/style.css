@@ -1,14 +1,6 @@
-.msgHolder {
-  width: 100%;
-}
 
-.system {
-  margin: auto;
-}
-
-.my-bubble {
+.bubble {
   margin: 10px;
-  display: inline-block;
   position: relative;
   min-width: 300px;
   max-width: 80%;
@@ -19,7 +11,7 @@
   box-shadow: 2px 2px grey;
 }
 
-.my-bubble:after {
+.bubble:after {
   content: '';
   position: absolute;
   top: 50%;
@@ -29,12 +21,12 @@
   box-shadow: 0px 2px grey;
 }
 
-.my-bubble.my {
+.bubble.self {
   background-color: #91d93b;
   float: right;
   margin-right: 10%;
 }
-.my-bubble.my:after {
+.bubble.self:after {
   border-left-color: #91d93b;
   border-right: 0;
   border-bottom: 0;
@@ -43,12 +35,12 @@
   right: 0;
 }
 
-.my-bubble.others {
+.bubble.others {
   background-color: #d9dad8;
   float: left;
   margin-left: 10%;
 }
-.my-bubble.others:after {
+.bubble.others:after {
   border-right-color: #d9dad8;
   border-left: 0;
   border-bottom: 0;
@@ -57,11 +49,44 @@
   left: 0;
 }
 
-.my-bubble p {
+.bubble p {
   margin: 12px;
+   z-index: 10000;
 }
 
-.system p {
+/* Efects on each bubble based on chat commands */
+.bubble.highlight {
+  font-size: 110%;
+}
+.bubble.others.highlight {
+  background-color: #b7b7b7;
+}
+.bubble.others.highlight:after {
+  border-right-color: #b7b7b7;
+}
+
+.bubble.self.highlight {
+  background-color: #74af2f;
+}
+.bubble.self.highlight:after {
+  border-left-color: #74af2f;
+}
+
+.bubble.fadelast {
+  opacity: .10;
+}
+
+.bubble.think {
+  color: darkgreen;
+  font-weight: bolder;
+}
+
+/* Msgs from the system */
+.systemmsg {
+  margin: auto;
+}
+
+.systemmsg p {
   width: 180px;
   padding: 10px;
   background: #222222;
@@ -70,31 +95,4 @@
   margin-top: 10px;
   margin-bottom: 10px;
   text-align: center
-}
-
-.think {
-  color: darkgreen;
-  font-weight: bolder;
-}
-
-.highlight {
-  font-size: 110%;
-}
-
-.my-bubble.others.highlight {
-  background-color: #b7b7b7;
-}
-.my-bubble.others.highlight:after {
-  border-right-color: #b7b7b7;
-}
-
-.my-bubble.my.highlight {
-  background-color: #74af2f;
-}
-.my-bubble.my.highlight:after {
-  border-left-color: #74af2f;
-}
-
-.my-bubble.fadelast {
-  opacity: .10;
 }

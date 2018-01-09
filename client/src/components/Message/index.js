@@ -9,9 +9,9 @@ export default ({myId, msg, userId, userName}) => {
   const msgsParagraph = msg.split('\n')
 
   let className = ''
-  if (userId === 'system') className = 'system'
-  else if (userId === myId) className = 'my-bubble my '
-  else className = 'my-bubble others '
+  if (userId === 'system') className = 'systemmsg'
+  else if (userId === myId) className = 'bubble self '
+  else className = 'bubble others '
 
   if (commandInputed === '/think') {
     className += 'think'
@@ -26,7 +26,7 @@ export default ({myId, msg, userId, userName}) => {
   }
 
   return (
-    <div className='msgHolder'>
+    <div className='msgholder'>
       <div className={className} >
         {
           msgsParagraph.map((p, i) =>

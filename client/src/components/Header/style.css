@@ -1,5 +1,8 @@
-
 .header {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+
   text-align: center;
   background-color: #222;
   padding: 10px;
