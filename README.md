@@ -12,7 +12,9 @@ Run Server (from the root of the project):
   ```
 
 To build Client using webpack from create-react-app:
-npm build ./client
+  ```
+  cd ./client && npm build
+  ```
 
 MISSING REQUIREMENTS:
   1. When the user is typing, indication that they are typing should be shown to the other user.
