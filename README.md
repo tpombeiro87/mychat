@@ -1,14 +1,15 @@
 Chat challenge
 ==============
 
-Run Client:
-npm ./client/ install && npm ./client start
+Run Client (from the root of the project):
+  cd ./client && npm install && npm start
 
-Run Server:
-npm ./server/ install && npm ./server start
+Run Server (from the root of the project):
+  cd ./server && npm install && npm start
+
 
 To build Client using webpack from create-react-app:
-npm ./client build
+npm build ./client
 
 MISSING REQUIREMENTS:
   1. When the user is typing, indication that they are typing should be shown to the other user.

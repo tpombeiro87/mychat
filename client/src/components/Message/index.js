@@ -11,16 +11,19 @@ type Props = {
 }
 
 export default ({myId, msg, userId, userName}: Props) => {
-  const commandInputed = msg.split(' ')[0]
+  // emoji support && paragraph handling
   msg = msg.replace(new RegExp('(;[)])', 'g'), '😉')
   msg = msg.replace(new RegExp('(:[)])', 'g'), '😊')
   const msgsParagraph = msg.split('\n')
 
   let className = ''
+  // css class names to identify source of the message
   if (userId === 'system') className = 'systemmsg'
   else if (userId === myId) className = 'bubble self '
   else className = 'bubble others '
 
+  const commandInputed = msg.split(' ')[0]
+  // css class names to identify specific requested behaviours
   if (commandInputed === '/think') {
     className += 'think'
     msg = msg.replace('/think ', '')
