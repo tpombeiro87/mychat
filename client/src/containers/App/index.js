@@ -60,8 +60,8 @@ class App extends Component<Props, State> {
     try {
       const myId = localStorage.getItem('myId') || undefined
       const messages = JSON.parse(localStorage.getItem('messages') || '[]')
-      const myUserName = localStorage.getItem('myUserName') || ''
-      const chattingToUserName = localStorage.getItem('chattingToUserName') || ''
+      const myUserName = localStorage.getItem('myUserName') || this.state.myUserName
+      const chattingToUserName = localStorage.getItem('chattingToUserName') || this.state.chattingToUserName
       this.setState({myId, myUserName, chattingToUserName, messages})
     } catch (err) {
       console.log(err)
