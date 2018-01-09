@@ -1,8 +1,16 @@
+//@flow
 import React from 'react'
 
 import './style.css'
 
-export default ({myId, msg, userId, userName}) => {
+type Props = {
+  myId?: string,
+  msg: string,
+  userId: string,
+  userName: string,
+}
+
+export default ({myId, msg, userId, userName}: Props) => {
   const commandInputed = msg.split(' ')[0]
   msg = msg.replace(new RegExp('(;[)])', 'g'), '😉')
   msg = msg.replace(new RegExp('(:[)])', 'g'), '😊')

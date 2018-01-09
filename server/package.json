@@ -5,12 +5,10 @@
   "main": "src/server.js",
   "devDependencies": {
     "babel-eslint": "^8.0.1",
-    "chai": "^4.1.2",
     "eslint": "3.1.1",
     "eslint-loader": "1.4.1",
     "eslint-plugin-flowtype": "2.4.0",
     "eslint-plugin-jsx-a11y": "2.0.1",
-    "mocha": "^3.5.3",
     "supervisor": "^0.12.0"
   },
   "dependencies": {
@@ -18,7 +16,8 @@
     "socket.io": "^2.0.4"
   },
   "scripts": {
-    "start": "supervisor src/server.js",
+    "start": "node src/server.js",
+    "local-start": "supervisor src/server.js",
     "test": "NODE_ENV=test mocha tests/*.js --reporter nyan"
   }
 }

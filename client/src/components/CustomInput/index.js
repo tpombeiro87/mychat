@@ -1,8 +1,15 @@
+//@flow
 import React from 'react'
 
 import './style.css'
 
-export default ({value, onChange, onBtnSendClick}) =>
+type Props = {
+  value: string,
+  onChange: Function,
+  onBtnSendClick: Function
+}
+
+export default ({value, onChange, onBtnSendClick}: Props) =>
   <div className='custominput'>
     <textarea
       value={value}
