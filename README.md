@@ -2,11 +2,14 @@ Chat challenge
 ==============
 
 Run Client (from the root of the project):
+  ```
   cd ./client && npm install && npm start
+  ```
 
 Run Server (from the root of the project):
+  ```
   cd ./server && npm install && npm start
-
+  ```
 
 To build Client using webpack from create-react-app:
 npm build ./client
