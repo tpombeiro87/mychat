@@ -94,3 +94,7 @@
 .my-bubble.my.highlight:after {
   border-left-color: #74af2f;
 }
+
+.my-bubble.fadelast {
+  opacity: .10;
+}

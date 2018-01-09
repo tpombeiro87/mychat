@@ -28,19 +28,23 @@ class App extends Component {
     this.state.socket.on('disconnect',
       () => this.onNewMessage({
         userId: 'system',
-        msg: 'You are disconnected!'
+        msg: 'You are Disconnected!'
       }))
   }
 
   componentDidUpdate (prevProps, prevState) {
-    const messages = this.state.messages.filter(m => m.userId !== 'system').slice(0, -1)
+    let messages = this.state.messages
+      .filter(m => m.userId !== 'system')
+    messages = messages.slice(-10)
     localStorage.setItem('messages', JSON.stringify(messages))
+    localStorage.setItem('myId', this.state.myId)
   }
 
   componentWillMount () {
     try {
-      var messages = JSON.parse(localStorage.getItem('messages'))
-      this.setState({messages})
+      const myId = localStorage.getItem('myId')
+      const messages = JSON.parse(localStorage.getItem('messages'))
+      this.setState({myId, messages})
     } catch (err) {
       console.log(err)
     }
@@ -59,16 +63,25 @@ class App extends Component {
       this.setState({chattingToUserName: userName})
     }
 
+    let messages = this.state.messages
     if (commandInputed === '/oops') {
       console.log('will remove last message')
-      const newMessages = this.state.messages.slice(0, -1)
-      this.setState({messages: newMessages})
-    } else {
-      this.setState({
-        myId: message.yourId || this.state.myId,
-        messages: this.state.messages.concat(message)
-      })
+      messages = this.state.messages.slice(0, -1)
     }
+
+    if (message.yourId) {
+      const oldId = this.state.myId
+      messages = messages.map(msg =>
+        (msg.userId === oldId)
+        ? {...msg, userId: message.yourId}
+        : msg
+      )
+    }
+
+    this.setState({
+      myId: message.yourId || this.state.myId,
+      messages: messages.concat(message)
+    })
     this.scrollToBottom()
   }
 

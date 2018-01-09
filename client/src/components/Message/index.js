@@ -19,8 +19,10 @@ export default ({myId, msg, userId, userName}) => {
   } else if (commandInputed === '/highlight') {
     className += 'highlight'
     msg = msg.replace('/highlight ', '')
-  } if (commandInputed === '/countdown') {
+  } else if (commandInputed === '/countdown') {
     msg = msg.replace('/countdown ', '')
+  } else if (commandInputed === '/fadelast') {
+    className += 'fadelast'
   }
 
   return (

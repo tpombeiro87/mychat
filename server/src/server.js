@@ -22,7 +22,7 @@ io.on('connection', (socket) => {
     userName: 'System',
     userId: 'system',
     yourId: socket.id,
-    msg: 'Welcome to Tiago Chat!'
+    msg: 'Connected to Tiago Chat!'
   })
 
   socket.on('newMessage', (message) => {
