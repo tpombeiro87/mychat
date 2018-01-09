@@ -19,7 +19,7 @@ type State = {
     userName: string,
     userId: string,
     msg: string
-  }> ,
+  }>,
   msgBox: string,
   socket: {
     on: Function,
@@ -60,7 +60,9 @@ class App extends Component<Props, State> {
     try {
       const myId = localStorage.getItem('myId') || undefined
       const messages = JSON.parse(localStorage.getItem('messages') || '[]')
-      this.setState({myId, messages })
+      const myUserName = localStorage.getItem('myUserName') || ''
+      const chattingToUserName = localStorage.getItem('chattingToUserName') || ''
+      this.setState({myId, myUserName, chattingToUserName, messages})
     } catch (err) {
       console.log(err)
     }
@@ -71,6 +73,8 @@ class App extends Component<Props, State> {
       .filter(m => m.userId !== 'system')
     messages = messages.slice(-10)
     localStorage.setItem('messages', JSON.stringify(messages))
+    localStorage.setItem('myUserName', this.state.myUserName ? this.state.myUserName : '')
+    localStorage.setItem('chattingToUserName', this.state.chattingToUserName ? this.state.chattingToUserName : '')
     localStorage.setItem('myId', this.state.myId ? this.state.myId : '')
   }
 
