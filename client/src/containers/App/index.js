@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { initializeApp, sendMessage, NEW_MESSAGE, SEND_MESSAGE } from './actions'
-import {  } from './actions'
+
 import Header from '../../components/Header'
 import Message from '../../components/Message'
 import CustomInput from '../../components/CustomInput'
@@ -48,10 +48,12 @@ class App extends Component<Props, State> {
     this.props.dispatch(sendMessage(this.props.socket, this.props.myId, this.state.msgBox))
   }
 
-  componentWillReceiveProps () {
+  componentDidUpdate () {
+    // on new messages scroll to the latest one
     if (this.props.latestAction === NEW_MESSAGE) {
       this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
-    } else if (this.props.latestAction === SEND_MESSAGE) {
+    // reset msgbox wen message is sent
+    } else if (this.props.latestAction === SEND_MESSAGE && this.state.msgBox !== '') {
       this.setState({msgBox: ''})
     }
   }
