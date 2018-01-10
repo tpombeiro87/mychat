@@ -17,13 +17,6 @@ export const initializeApp = (socket) => {
 export const NEW_MESSAGE = 'NEW_MESSAGE'
 // : {msg: string, userId: string, userName: string, yourId?: string}
 export const onNewMessage = (newMessage) => {
-  const commandInputed = newMessage.msg.split(' ')[0]
-  // countdown
-  if (commandInputed === '/countdown' && newMessage.userId !== this.state.myId) {
-    console.log('will open tab..')
-    window.open(newMessage.msg.replace('/countdown ', ''), '_new')
-  }
-
   return {
     type: NEW_MESSAGE,
     newMessage
@@ -39,16 +32,22 @@ export const sendMessage = (socket, myId, messageTxt) => {
     if (commandInputed === '/countdown') {
       console.log('Send Countdown Message')
       for (let i = 0; i <= 5; i++) {
-        let msg = i !== 5 ? `${5 - i}` : messageTxt
-        setTimeout(socket.emit.bind(
-          this, // tobe runned in this context
-          'newMessage', // eventName to emit
-          { userId: myId, msg }), // message to emit
-          1000 * (i + 1)) // every one second
+        const sendCountDownMsg = (finalMsg) => {
+          socket.emit('newMessage', {
+            userId: myId,
+            msg: i !== 5 ? `${5 - i}` : finalMsg
+          })
+        }
+        setTimeout(sendCountDownMsg
+          .bind(this, // tobe runned in this context
+             messageTxt // last message to emit
+           ), 1000 * (i + 1) // every one second
+        )
       }
+
     // normal message
     } else {
-      console.log('Send Normal Message')
+      console.log('send Normal Message')
       socket.emit('newMessage', { userId: myId, msg: messageTxt })
     }
 

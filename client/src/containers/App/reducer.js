@@ -46,11 +46,18 @@ const reducer = (state = initialState, action) => {
         console.log('I changed nickname to', myNick)
       }
 
+      // countdown
+      if (commandInputed === '/countdown' && newMessage.userId !== state.myId) {
+        // not pure :( but its life..
+        console.log('will open tab..')
+        window.open(newMessage.msg.replace('/countdown ', ''), '_new')
+      }
+
       let messages = state.messages
       // oops
       if (commandInputed === '/oops') {
-        console.log('will remove last message')
         messages = state.messages.slice(0, -1)
+        console.log('will remove last message')
       }
 
       // on reload we will need to reidentify our messages so they

@@ -25,4 +25,3 @@ IF HAD MORE TIME:
   * TESTS on server / client - rendering and on ui logic
   * better and more commit msgs
   * prettier chat bubbles
-  * improv of some features
