@@ -35,12 +35,12 @@
   right: 0;
 }
 
-.bubble.others {
+.bubble.remote {
   background-color: #d9dad8;
   float: left;
   margin-left: 10%;
 }
-.bubble.others:after {
+.bubble.remote:after {
   border-right-color: #d9dad8;
   border-left: 0;
   border-bottom: 0;
@@ -58,10 +58,10 @@
 .bubble.highlight {
   font-size: 110%;
 }
-.bubble.others.highlight {
+.bubble.remote.highlight {
   background-color: #b7b7b7;
 }
-.bubble.others.highlight:after {
+.bubble.remote.highlight:after {
   border-right-color: #b7b7b7;
 }
 
@@ -82,11 +82,11 @@
 }
 
 /* Msgs from the system */
-.systemmsg {
+.system {
   margin: auto;
 }
 
-.systemmsg p {
+.system p {
   width: 180px;
   padding: 10px;
   background: #222222;
