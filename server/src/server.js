@@ -11,7 +11,6 @@ io.on('connection', (socket) => {
   } else {
     logger.log(`Disconnected! Already two users on the chat!`)
     socket.send({
-      userName: 'System',
       userId: 'system',
       yourId: socket.id,
       msg: 'The chat is full!'
@@ -19,7 +18,6 @@ io.on('connection', (socket) => {
     socket.disconnect()
   }
   socket.send({
-    userName: 'System',
     userId: 'system',
     yourId: socket.id,
     msg: 'Connected to Tiago Chat!'

@@ -11,6 +11,8 @@ export const initializeApp = (socket) => {
         userId: 'system',
         msg: 'You are Disconnected!'
       })))
+
+    dispatch({type: INITIALIZE_APP})
   }
 }
 
@@ -57,25 +59,3 @@ export const sendMessage = (socket, myId, messageTxt) => {
     })
   }
 }
-
-// loadFromLocalStorage () {
-//   try {
-//     const myId = localStorage.getItem('myId') || undefined
-//     const messages = JSON.parse(localStorage.getItem('messages') || '[]')
-//     const myNick = localStorage.getItem('myNick') || this.state.myNick
-//     const  remoteUserNick = localStorage.getItem(' remoteUserNick') || this.state. remoteUserNick
-//     this.setState({myId, myNick,  remoteUserNick, messages})
-//   } catch (err) {
-//     console.log(err)
-//   }
-// }
-//
-// updateLocalStorage () {
-//   let messages = this.state.messages
-//     .filter(m => m.userId !== 'system')
-//   messages = messages.slice(-10)
-//   localStorage.setItem('messages', JSON.stringify(messages))
-//   localStorage.setItem('myNick', this.state.myNick ? this.state.myNick : '')
-//   localStorage.setItem(' remoteUserNick', this.state. remoteUserNick ? this.state. remoteUserNick : '')
-//   localStorage.setItem('myId', this.state.myId ? this.state.myId : '')
-// }

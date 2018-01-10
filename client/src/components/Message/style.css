@@ -82,11 +82,11 @@
 }
 
 /* Msgs from the system */
-.system {
+.info.system {
   margin: auto;
 }
 
-.system p {
+.info.system p {
   width: 180px;
   padding: 10px;
   background: #222222;

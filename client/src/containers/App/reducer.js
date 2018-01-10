@@ -1,11 +1,14 @@
-import { NEW_MESSAGE, SEND_MESSAGE } from './actions'
 import io from 'socket.io-client'
+
+import { INITIALIZE_APP, NEW_MESSAGE, SEND_MESSAGE } from './actions'
+import localStorageManagement from './misc/localStorageManagement'
+import { Message } from './misc/MessageClass'
 
 const SERVER_URL = 'http://localhost:3030'
 
 const initialState = {
-  myNick: 'N.D.',
   myId: undefined,
+  myNick: 'N.D.',
   remoteUserNick: 'N.D.',
   messages: [],
   socket: io(SERVER_URL),
@@ -13,72 +16,51 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+  debugger
   switch (action.type) {
+    case INITIALIZE_APP:
+      return {
+        ...state,
+        ...localStorageManagement.loadInitData(),
+        latestAction: INITIALIZE_APP
+      }
+
     case NEW_MESSAGE:
-      let newMessage = Object.assign({}, action.newMessage)
-      // checking for commands
-      const validCommands = ['/think', '/highlight', '/countdown', '/fadelast', '/oops']
-      const commandInputed = newMessage.msg.split(' ')[0]
-      if (validCommands.includes(commandInputed)) {
-        newMessage.commandInputed = commandInputed
-      }
+      let newMessage = new Message(action.newMessage, state.myId)
 
-      // to identify origin of message
-      if (newMessage.userId === 'system') newMessage.sender = 'system'
-      else if (newMessage.userId === state.myId) newMessage.sender = 'self'
-      else newMessage.sender = 'remote'
+      const {remoteUserNick = state.remoteUserNick,
+           myNick = state.myNick} = newMessage.extractNicks(state.myId)
 
-      // emoji support
-      newMessage.msg = newMessage.msg
-        .replace(new RegExp('(;[)])', 'g'), '😉')
-        .replace(new RegExp('(:[)])', 'g'), '😊')
-
-      // remote user changed nick
-      let remoteUserNick = state.remoteUserNick
-      if (commandInputed === '/nick' && newMessage.userId !== state.myId) {
-        remoteUserNick = newMessage.msg.split(' ')[1]
-        console.log('remote user changed nick to', remoteUserNick)
-      }
-      // I changed nick
-      let myNick = state.myNick
-      if (commandInputed === '/nick' && newMessage.userId === state.myId) {
-        myNick = newMessage.msg.split(' ')[1]
-        console.log('I changed nickname to', myNick)
-      }
-
-      // countdown
-      if (commandInputed === '/countdown' && newMessage.userId !== state.myId) {
-        // not pure :( but its life..
-        console.log('will open tab..')
-        window.open(newMessage.msg.replace('/countdown ', ''), '_new')
-      }
+      newMessage.executeCommandCountdown()
 
       let messages = state.messages
+      const newId = action.newMessage.yourId
+      if (newId) {
+        // on reload we will need to reidentify our messages so they
+        // appear to be from us on the ui
+        // yourId is only sent by the server on connect
+        const oldId = state.myId
+        messages.forEach(message =>
+          message.reidentifySender(newId, oldId)
+        )
+      }
       // oops
-      if (commandInputed === '/oops') {
-        messages = state.messages.slice(0, -1)
+      if (newMessage.commandInputed === 'oops') {
+        messages = messages.slice(0, -1)
         console.log('will remove last message')
       }
 
-      // on reload we will need to reidentify our messages so they
-      // appear to be from us on the ui
-      // yourId is only sent by the server on connect
-      if (newMessage.yourId) {
-        const oldId = state.myId
-        messages = messages.map(msg =>
-          (msg.userId === oldId)
-          ? {...msg, userId: newMessage.yourId}
-          : msg
-        )
-      }
+      // add new message
+      messages = messages.concat(newMessage)
+      // save to local storage new state
+      localStorageManagement.update(messages, state.myId, state.myNick, state.remoteUserNick)
 
-      // update messages and id in case of srever sends it!
       return {
         ...state,
-        myId: newMessage.yourId || state.myId,
+        myId: newId || state.myId, // update myid in case of server sends it!
         myNick,
         remoteUserNick,
-        messages: messages.concat(newMessage),
+        messages,
         latestAction: NEW_MESSAGE
       }
 
