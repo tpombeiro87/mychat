@@ -38,9 +38,7 @@ class Message {
   }
 
   executeCommandCountdown (myId?: string) {
-    // countdown
     if (this.commandInputed === 'countdown' && this.userId !== myId) {
-      // not pure :( but its life..
       console.log('will open tab..')
       window.open(this.msg.replace('/countdown ', ''), '_new')
     }

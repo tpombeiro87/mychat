@@ -3,9 +3,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { initializeApp, sendMessage, NEW_MESSAGE, SEND_MESSAGE } from './actions'
+import { Message as MessageClass} from './misc/MessageClass'
+import localStorageManagement from './misc/localStorageManagement'
 
 import Header from '../../components/Header'
-import Message from '../../components/Message'
+import MessageComponent from '../../components/Message'
 import CustomInput from '../../components/CustomInput'
 import './style.css'
 
@@ -14,11 +16,7 @@ type Props = {
   myNick: string,
   myId?: string,
   remoteUserNick: string,
-  messages: Array<{
-    sender: string,
-    msg: string,
-    commandInputed: string
-  }>,
+  messages: Array<MessageClass>,
   socket: {
     on: Function,
     emit: Function
@@ -50,11 +48,15 @@ class App extends Component<Props, State> {
   }
 
   componentDidUpdate () {
-    // on new messages scroll to the latest one
     if (this.props.latestAction === NEW_MESSAGE) {
+      // get last message and execute countdown command if necessary
+      this.props.messages.slice(-1)[0].executeCommandCountdown(this.props.myId)
+      // save to local storage new state
+      localStorageManagement.update(this.props.messages, this.props.myId, this.props.myNick, this.props.remoteUserNick)
+      // on new messages scroll to the latest one
       this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
-    // reset msgbox wen message is sent
     } else if (this.props.latestAction === SEND_MESSAGE && this.state.msgBox !== '') {
+      // reset msgbox wen message is sent
       this.setState({msgBox: ''})
     }
   }
@@ -66,7 +68,7 @@ class App extends Component<Props, State> {
         <div className='message-holders'>
           {
             this.props.messages.map((message, index) =>
-              <Message key={`message--${index}`}
+              <MessageComponent key={`message--${index}`}
                 msg={message.msg}
                 sender={message.sender}
                 commandInputed={message.commandInputed} />

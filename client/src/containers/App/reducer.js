@@ -2,7 +2,6 @@
 import io from 'socket.io-client'
 
 import { INITIALIZE_APP, NEW_MESSAGE, SEND_MESSAGE } from './actions'
-import localStorageManagement from './misc/localStorageManagement'
 import { Message } from './misc/MessageClass'
 
 const SERVER_URL = 'http://localhost:3030'
@@ -22,7 +21,8 @@ type typeAction = {
     yourId?: string,
     msg: string,
     userId: string
-  }
+  },
+  initData: {}
 }
 
 const initialState = {
@@ -42,7 +42,7 @@ const reducer = (state?: typeState = initialState, action: typeAction) => {
     case INITIALIZE_APP:
       return {
         ...state,
-        ...localStorageManagement.loadInitData(),
+        ...action.initData,
         latestAction: INITIALIZE_APP
       }
 
@@ -51,8 +51,6 @@ const reducer = (state?: typeState = initialState, action: typeAction) => {
 
       const {remoteUserNick = state.remoteUserNick,
            myNick = state.myNick} = newMessage.extractNicks(state.myId)
-
-      newMessage.executeCommandCountdown(state.myId)
 
       let messages = state.messages || []
       const newId = action.newMessage ? action.newMessage.yourId : undefined
@@ -73,8 +71,6 @@ const reducer = (state?: typeState = initialState, action: typeAction) => {
 
       // add new message
       messages = messages.concat(newMessage)
-      // save to local storage new state
-      localStorageManagement.update(messages, newId || state.myId, state.myNick, state.remoteUserNick)
 
       return {
         ...state,

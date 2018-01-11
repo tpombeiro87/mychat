@@ -1,4 +1,5 @@
 //@flow
+import localStorageManagement from './misc/localStorageManagement'
 
 type typeSocket = {
   on: Function,
@@ -18,7 +19,10 @@ export const initializeApp = (socket: typeSocket) => {
         msg: 'You are Disconnected!'
       })))
 
-    dispatch({type: INITIALIZE_APP})
+    dispatch({
+      initData: localStorageManagement.loadInitData(),
+      type: INITIALIZE_APP
+    })
   }
 }
 
