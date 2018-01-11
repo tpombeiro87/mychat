@@ -74,7 +74,7 @@ const reducer = (state?: typeState = initialState, action: typeAction) => {
       // add new message
       messages = messages.concat(newMessage)
       // save to local storage new state
-      localStorageManagement.update(messages, state.myId, state.myNick, state.remoteUserNick)
+      localStorageManagement.update(messages, newId || state.myId, state.myNick, state.remoteUserNick)
 
       return {
         ...state,

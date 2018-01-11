@@ -1,6 +1,12 @@
 //@flow
+
+type typeSocket = {
+  on: Function,
+  emit: Function
+}
+
 export const INITIALIZE_APP = 'INITIALIZE_APP'
-export const initializeApp = (socket: { on: Function }) => {
+export const initializeApp = (socket: typeSocket) => {
   return (dispatch: Function) => {
     socket.on('message',
       (message) => {
@@ -17,8 +23,7 @@ export const initializeApp = (socket: { on: Function }) => {
 }
 
 export const NEW_MESSAGE = 'NEW_MESSAGE'
-// : {msg: string, userId: string, userName: string, yourId?: string}
-export const onNewMessage = (newMessage: {}) => {
+export const onNewMessage = (newMessage: {msg: string, userId: string}) => {
   return {
     type: NEW_MESSAGE,
     newMessage
@@ -26,7 +31,7 @@ export const onNewMessage = (newMessage: {}) => {
 }
 
 export const SEND_MESSAGE = 'SEND_MESSAGE'
-export const sendMessage = (socket: { emit: Function }, myId?: string, messageTxt: string) => {
+export const sendMessage = (socket: typeSocket, myId?: string, messageTxt: string) => {
   return (dispatch: Function) => {
     const commandInputed = messageTxt.split(' ')[0]
 
