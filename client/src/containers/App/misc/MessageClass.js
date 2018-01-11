@@ -1,6 +1,12 @@
+//@flow
 
 class Message {
-  constructor (rawMsg, myId) {
+  msg: string
+  userId: string
+  commandInputed: string
+  sender: string
+
+  constructor (rawMsg: {msg: string, userId: string}, myId: string) {
     this.msg = rawMsg.msg
     this.userId = rawMsg.userId
 
@@ -9,7 +15,7 @@ class Message {
     this._emojisTranslations()
   }
 
-  extractNicks (myId) {
+  extractNicks (myId: string) {
     let remoteUserNick
     let myNick
     if (this.commandInputed === 'nick') {
@@ -25,13 +31,13 @@ class Message {
     return {myNick, remoteUserNick}
   }
 
-  reidentifySender (newId, oldId) {
+  reidentifySender (newId: string, oldId: string) {
     if (this.userId === oldId) {
       this.userId = newId
     }
   }
 
-  executeCommandCountdown (myId) {
+  executeCommandCountdown (myId?: string) {
     // countdown
     if (this.commandInputed === 'countdown' && this.userId !== myId) {
       // not pure :( but its life..
@@ -48,7 +54,7 @@ class Message {
     }
   }
 
-  _defineSender (myId) {
+  _defineSender (myId: string) {
     // to identify origin of message
     if (this.userId === 'system') {
       this.sender = 'system'

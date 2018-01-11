@@ -1,10 +1,11 @@
+//@flow
 import { Message } from './MessageClass'
 
 const loadInitData = () => {
   let initData = {}
   try {
     let messages = JSON.parse(localStorage.getItem('messages') || '[]')
-    let myId = localStorage.getItem('myId') || undefined
+    let myId = localStorage.getItem('myId') || ''
     // not pure :(
     initData = {
       myId,
@@ -18,7 +19,7 @@ const loadInitData = () => {
   return initData
 }
 
-const update = (messages, myId, myNick, remoteUserNick) => {
+const update = (messages: Array<Message>, myId: string, myNick: string, remoteUserNick: string) => {
   let messagesToSave = messages
     .filter(m => m.userId !== 'system')
   messagesToSave = messagesToSave.slice(-10)

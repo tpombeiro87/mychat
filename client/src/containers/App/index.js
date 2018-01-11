@@ -44,8 +44,9 @@ class App extends Component<Props, State> {
 
   onBtnSendClick () {
     // if empty dont send message
-    if (this.state.msgBox === '') return
-    this.props.dispatch(sendMessage(this.props.socket, this.props.myId, this.state.msgBox))
+    if (this.state.msgBox !== '') {
+      this.props.dispatch(sendMessage(this.props.socket, this.props.myId, this.state.msgBox))
+    }
   }
 
   componentDidUpdate () {

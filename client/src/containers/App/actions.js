@@ -1,7 +1,7 @@
-// @ flow
+//@flow
 export const INITIALIZE_APP = 'INITIALIZE_APP'
-export const initializeApp = (socket) => {
-  return (dispatch) => {
+export const initializeApp = (socket: { on: Function }) => {
+  return (dispatch: Function) => {
     socket.on('message',
       (message) => {
         dispatch(onNewMessage(message))
@@ -18,7 +18,7 @@ export const initializeApp = (socket) => {
 
 export const NEW_MESSAGE = 'NEW_MESSAGE'
 // : {msg: string, userId: string, userName: string, yourId?: string}
-export const onNewMessage = (newMessage) => {
+export const onNewMessage = (newMessage: {}) => {
   return {
     type: NEW_MESSAGE,
     newMessage
@@ -26,8 +26,8 @@ export const onNewMessage = (newMessage) => {
 }
 
 export const SEND_MESSAGE = 'SEND_MESSAGE'
-export const sendMessage = (socket, myId, messageTxt) => {
-  return (dispatch) => {
+export const sendMessage = (socket: { emit: Function }, myId?: string, messageTxt: string) => {
+  return (dispatch: Function) => {
     const commandInputed = messageTxt.split(' ')[0]
 
     // countdown
